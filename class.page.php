@@ -17,6 +17,8 @@
 class Page
 {
     var $path;
+    var $cookieLang = "LANG";
+    var $lang;
 
     //Put into translation files, that can be included in the constructor
     var $projectName = "FunTechHouse";
@@ -30,6 +32,7 @@ class Page
     function __construct($path, $pagetitle)
     {
         $this->path = $path;
+        $this->langDetect();
 
         print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n".
             "<html>\n<head>\n".
@@ -46,7 +49,7 @@ class Page
         print "</div><!-- END: body_data -->\n\n";
 
         print "<div id=\"nav_links\">\n";
-        foreach ($this->navigation as $navUrl => $navName) 
+        foreach ($this->navigation as $navUrl => $navName)
         {
             print "<!-- Link:$navUrl Name:$navName -->\n";
             //$this->nav_link($navUrl, $navName, 1)
@@ -54,7 +57,49 @@ class Page
         print "</div><!-- END: nav_links -->\n\n";
 
         print "</body>\n</html>\n";
-    }    
+    }
+
+    function langDetect()
+    {
+        //check LANG in this prio:
+        // 1. GET
+        // 2. Cookie
+        // 3. HTTP_ACCEPT_LANGUAGE'
+        if(isset($_GET[$this->cookieLang])) {
+            $lang = substr($_GET[$this->cookieLang], 0, 2);
+            setcookie($this->cookieLang, $lang, time() + (86400 * 30), "/"); // 86400 = 1 day
+        }
+        else if(!isset($_COOKIE[$this->cookieLang])) {
+            //Cookie is not set, use default lang in browser
+            //echo "HTTP_ACCEPT_LANGUAGE: ".$_SERVER['HTTP_ACCEPT_LANGUAGE']."<br>\n";
+            //HTTP_ACCEPT_LANGUAGE: sv-SE,sv;q=0.8,en-GB;q=0.5,en;q=0.3
+            $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+
+        } else {
+            //There is a cookie, let's try to use it!
+            //But if there is bogus data in that cookie,
+            //then just check the 2 first chars...
+            $lang = substr($_COOKIE[$this->cookieLang], 0, 2);
+        }
+
+        //IANA Language Subtag Registry:
+        //http://r12a.github.io/apps/subtags/
+        //http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
+
+        //Check for supported lang,
+        //if not ok then go to default...
+        switch ( $lang )
+        {
+        case "de" :
+        case "en" :
+        case "sv" :
+            $this->lang=$lang;
+            break;
+        default :
+            $this->lang="en";
+            break;
+        }
+    }
 
 
     # ~
