@@ -1,6 +1,7 @@
 <?php
 
 #
+# Project is based on:
 #
 # Parsedown
 # http://parsedown.org
@@ -13,8 +14,49 @@
 #
 #
 
-class Parsedown
+class Page
 {
+    var $path;
+
+    //Put into translation files, that can be included in the constructor
+    var $projectName = "FunTechHouse";
+    var $projectDesc = "The FunTechHouse project, a open source home automation system";
+    var $navigation = array(
+        "index.php"           => "Index",
+        "part01/index.php" => "Something",
+        "part02/index.php" => "Some more",
+    );
+
+    function __construct($path, $pagetitle)
+    {
+        $this->path = $path;
+
+        print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n".
+            "<html>\n<head>\n".
+            "\t<title>$this->projectName- $pagetitle</title>\n";
+
+        print "</head>\n<body>\n".
+            "<div id=\"body_data\">\n".
+            "<h1>".$this->projectDesc." - ".$pagetitle."</h1>\n";
+    }
+
+
+    function __destruct()
+    {
+        print "</div><!-- END: body_data -->\n\n";
+
+        print "<div id=\"nav_links\">\n";
+        foreach ($this->navigation as $navUrl => $navName) 
+        {
+            print "<!-- Link:$navUrl Name:$navName -->\n";
+            //$this->nav_link($navUrl, $navName, 1)
+        }
+        print "</div><!-- END: nav_links -->\n\n";
+
+        print "</body>\n</html>\n";
+    }    
+
+
     # ~
 
     const version = '1.5.3';
