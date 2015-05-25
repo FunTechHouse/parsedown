@@ -38,7 +38,7 @@ class Page
 
         print "</head>\n<body>\n".
             "<div id=\"body_data\">\n".
-            "<h1>".$projectDesc." - ".$pagetitle."</h1>\n";
+            "<h1>".$projectDesc." - ".$pagetitle."</h1>\n\n";
     }
 
 
@@ -96,6 +96,28 @@ class Page
         default :
             $this->lang="en";
             break;
+        }
+    }
+
+    # Read the markdown file with the correct lang.
+    # Filename is [$file]_lang.md
+    # i.e. data_en.md
+    function readFile($file)
+    {
+        $md_file=$file."_".$this->lang.".md";
+
+        if (file_exists($md_file) == FALSE) {
+            echo "<!-- Error: lang $lang ($md_file) does not exist, default to en -->\n";
+            $lang="en";
+            $md_file=$file."_".$lang.".md";
+        }
+
+        if (file_exists($md_file)) {
+            echo $this->text(file_get_contents($md_file));
+        }
+        else
+        {
+            echo "<!-- $md_file -->\n";
         }
     }
 
