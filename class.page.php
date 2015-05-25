@@ -20,27 +20,25 @@ class Page
     var $cookieLang = "LANG";
     var $lang;
 
-    //Put into translation files, that can be included in the constructor
-    var $projectName = "FunTechHouse";
-    var $projectDesc = "The FunTechHouse project, a open source home automation system";
-    var $navigation = array(
-        "index.php"           => "Index",
-        "part01/index.php" => "Something",
-        "part02/index.php" => "Some more",
-    );
+    var $navigation;
 
     function __construct($path, $pagetitle)
     {
         $this->path = $path;
         $this->langDetect();
 
+        require 'inc_'.$this->lang.'.php';
+        $this->navigation = $navigation;
+
         print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n".
             "<html>\n<head>\n".
-            "\t<title>$this->projectName- $pagetitle</title>\n";
+            "\t<title>$projectName- $pagetitle</title>\n";
+
+        print "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n";
 
         print "</head>\n<body>\n".
             "<div id=\"body_data\">\n".
-            "<h1>".$this->projectDesc." - ".$pagetitle."</h1>\n";
+            "<h1>".$projectDesc." - ".$pagetitle."</h1>\n";
     }
 
 
