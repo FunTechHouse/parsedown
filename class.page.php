@@ -21,9 +21,17 @@ class Page
     var $lang;
 
     var $navigation;
+    var $navigationPage;
 
-    function __construct($path, $pagetitle)
+    var $pagename;
+
+    function __construct($path, $caller, $pagetitle)
     {
+        //First remove the common part (the path to here)
+        //from the callers filename and path,
+        //Then we end up with only the local dir and name that the webserver is using...
+        $this->pagename = str_replace(dirname(__FILE__)."/", "", $caller);
+
         $this->path = $path;
         $this->langDetect();
 
@@ -33,6 +41,16 @@ class Page
         print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n".
             "<html>\n<head>\n".
             "\t<title>$projectName- $pagetitle</title>\n";
+
+        print "\t<link rel=\"stylesheet\" title=\"std\" ".
+            "media=\"screen\"   href=\"".$this->path."screen.css\"   type=\"text/css\">\n";
+
+        print "\t<link rel=\"stylesheet\" title=\"std\" ".
+            "media=\"print\"    href=\"".$this->path."print.css\"    type=\"text/css\">\n";
+
+        print "\t<link rel=\"stylesheet\" title=\"std\" ".
+            "media=\"handheld\" href=\"".$this->path."handheld.css\" type=\"text/css\">\n";
+
 
         print "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n";
 
@@ -44,16 +62,32 @@ class Page
 
     function __destruct()
     {
-        print "</div><!-- END: body_data -->\n\n";
+        print "\n</div><!-- END: body_data -->\n\n";
 
         print "<div id=\"nav_links\">\n";
+        print "<div id=\"nav_colour\">\n";
+
+        print "<br>\n".
+            "<div id=\"nav_level1\">".
+            "<a href=\"http://fun-tech.se\">&copy; fun-tech.se</a>".
+            "</div>".
+            "<br>\n";
+
         foreach ($this->navigation as $navUrl => $navName)
         {
-            print "<!-- Link:$navUrl Name:$navName -->\n";
-            //$this->nav_link($navUrl, $navName, 1)
+            print "<div id=\"nav_level1\"><a href=\"".$this->path.$navUrl."\">$navName</a></div>\n";
+            if($this->pagename == $navUrl)
+            {
+                print $this->navigationPage;
+            }
         }
+
+        print "\n<br><br><br><br><br><br>\n\n";
+
+        print "</div><!-- END: nav_colour -->\n";
         print "</div><!-- END: nav_links -->\n\n";
 
+        print "<div id=\"print_info\">&copy; fun-tech.se - Simonsson Fun Technologies</div>\n";
         print "</body>\n</html>\n";
     }
 
@@ -121,6 +155,18 @@ class Page
         }
     }
 
+
+    function buildNavLink($text, $level)
+    {
+        if($level<=4)
+        {
+            $this->navigationPage .=
+                "<div id=\"nav_level".$level."\">".
+                "<a href=\"".$this->path.$this->pagename."#".$text."\">".
+                $text.
+                "</a></div>\n";
+        }
+    }
 
     # ~
 
@@ -583,6 +629,9 @@ class Page
                 $level ++;
             }
 
+            #Start with H2
+            $level ++;
+
             if ($level > 6)
             {
                 return;
@@ -597,6 +646,9 @@ class Page
                     'handler' => 'line',
                 ),
             );
+
+            # Add to navigation
+            $this->buildNavLink($text, $level);
 
             return $Block;
         }

@@ -9,3 +9,13 @@ Some random text
 * One
 * Two
 * Thre
+
+Please note that the page starts with H1, 
+so the local headers always start with H2.
+
+# H2
+## H3
+### H4
+
+#### H5
+##### H6
