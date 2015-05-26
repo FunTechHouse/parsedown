@@ -69,7 +69,7 @@ class Page
 
         print "<br>\n".
             "<div id=\"nav_level1\">".
-            "<a href=\"http://fun-tech.se\">&copy; fun-tech.se</a>".
+            "<a href=\"http://fun-tech.se\" target=\"_blank\">&copy; fun-tech.se</a>".
             "</div>".
             "<br>\n";
 
@@ -82,7 +82,7 @@ class Page
             }
         }
         print "\n<br>\n\n";
-        
+
         print "<div id=\"nav_level1\">\n".
             "<a href=\"".$this->path.$this->pagename."?LANG=de\"><img src=\"".$this->path."flags/Germany-Flag-32.png\"></a>\n".
             "<a href=\"".$this->path.$this->pagename."?LANG=sv\"><img src=\"".$this->path."flags/Sweden-Flag-32.png\"></a>\n".
