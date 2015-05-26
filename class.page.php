@@ -81,8 +81,15 @@ class Page
                 print $this->navigationPage;
             }
         }
+        print "\n<br>\n\n";
+        
+        print "<div id=\"nav_level1\">\n".
+            "<a href=\"".$this->path.$this->pagename."?LANG=de\"><img src=\"".$this->path."flags/Germany-Flag-32.png\"></a>\n".
+            "<a href=\"".$this->path.$this->pagename."?LANG=sv\"><img src=\"".$this->path."flags/Sweden-Flag-32.png\"></a>\n".
+            "<a href=\"".$this->path.$this->pagename."?LANG=en\"><img src=\"".$this->path."flags/United-Kingdom-flag-32.png\"></a>\n".
+            "</div>\n";
 
-        print "\n<br><br><br><br><br><br>\n\n";
+        print "<br><br><br><br>\n\n";
 
         print "</div><!-- END: nav_colour -->\n";
         print "</div><!-- END: nav_links -->\n\n";
