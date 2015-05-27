@@ -169,10 +169,18 @@ class Page
         {
             $this->navigationPage .=
                 "<div id=\"nav_level".$level."\">".
-                "<a href=\"".$this->path.$this->pagename."#".rawurlencode($text)."\">".
+                "<a href=\"".$this->path.$this->pagename."#".$this->urlsanitize($text)."\">".
                 $text.
                 "</a></div>\n";
         }
+    }
+
+    # Remove all non ascii 7 chars and replace them with _
+    function urlsanitize($str)
+    {
+        $str = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
+        $str = preg_replace('/[^a-zA-Z0-9]/', '_', $str);
+        return $str;
     }
 
     # ~
@@ -651,7 +659,7 @@ class Page
                     'name' => 'h' . min(6, $level),
                     'text' => $text,
                     'attributes' => array(
-                        'id' => rawurlencode($text),
+                        'id' => $this->urlsanitize($text),
                     ),
                     'handler' => 'line',
                 ),
