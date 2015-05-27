@@ -40,7 +40,7 @@ class Page
 
         print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n".
             "<html>\n<head>\n".
-            "\t<title>$projectName- $pagetitle</title>\n";
+            "\t<title>$projectName - $pagetitle</title>\n";
 
         print "\t<link rel=\"stylesheet\" title=\"std\" ".
             "media=\"screen\"   href=\"".$this->path."screen.css\"   type=\"text/css\">\n";
@@ -56,7 +56,7 @@ class Page
 
         print "</head>\n<body>\n".
             "<div id=\"body_data\">\n".
-            "<h1>".$projectDesc." - ".$pagetitle."</h1>\n\n";
+            "<h1>".$projectDesc." - ".$this->navigation[$this->pagename][1]."</h1>\n\n";
     }
 
 
@@ -75,7 +75,7 @@ class Page
 
         foreach ($this->navigation as $navUrl => $navName)
         {
-            print "<div id=\"nav_level1\"><a href=\"".$this->path.$navUrl."\">$navName</a></div>\n";
+            print "<div id=\"nav_level1\"><a href=\"".$this->path.$navUrl."\">$navName[0]</a></div>\n";
             if($this->pagename == $navUrl)
             {
                 print $this->navigationPage;
@@ -169,7 +169,7 @@ class Page
         {
             $this->navigationPage .=
                 "<div id=\"nav_level".$level."\">".
-                "<a href=\"".$this->path.$this->pagename."#".$text."\">".
+                "<a href=\"".$this->path.$this->pagename."#".rawurlencode($text)."\">".
                 $text.
                 "</a></div>\n";
         }
@@ -650,6 +650,9 @@ class Page
                 'element' => array(
                     'name' => 'h' . min(6, $level),
                     'text' => $text,
+                    'attributes' => array(
+                        'id' => rawurlencode($text),
+                    ),
                     'handler' => 'line',
                 ),
             );
