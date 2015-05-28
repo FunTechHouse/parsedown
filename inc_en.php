@@ -1,10 +1,11 @@
 <?php
 $projectName = "FunTechHouse";
-$projectDesc = "The FunTechHouse project, a open source home automation system";
+$projectDesc = "The FunTechHouse project, markdown based web solution";
 $navigation = array(
     "index.php"        => array("Intro", "Introduction"),
-    "part01/index.php" => array("P1",    "Page 01"),
-    "part02/index.php" => array("P2",    "Page02"),
+    "basic/index.php"  => array("Basics", "Basic markdown syntax"),
+    "table/index.php"  => array("Tables", "Table"),
+    "code/index.php"   => array("Code",  "Include code"),
 );
 
 ?>

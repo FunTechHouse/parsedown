@@ -1,10 +1,11 @@
 <?php
 $projectName = "FunTechHouse";
-$projectDesc = "The FunTechHouse project, byggt med öppen källkod";
+$projectDesc = "The FunTechHouse project, en weblösning med markdown";
 $navigation = array(
     "index.php"        => array("Intro", "Introduktion"),
-    "part01/index.php" => array("S1",    "Sida 01"),
-    "part02/index.php" => array("S2",    "Sida 02"),
+    "basic/index.php"  => array("Grunden","Grundläggande markdown syntax"),
+    "table/index.php"  => array("Tabeller", "Tabeller"),
+    "code/index.php"   => array("Kod",  "Inkludera kod"),
 );
 
 ?>

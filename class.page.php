@@ -25,7 +25,7 @@ class Page
 
     var $pagename;
 
-    function __construct($path, $caller, $pagetitle)
+    function __construct($path, $caller)
     {
         //First remove the common part (the path to here)
         //from the callers filename and path,
@@ -40,7 +40,7 @@ class Page
 
         print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n".
             "<html>\n<head>\n".
-            "\t<title>$projectName - $pagetitle</title>\n";
+            "\t<title>$projectName - ".$this->navigation[$this->pagename][1]."</title>\n";
 
         print "\t<link rel=\"stylesheet\" title=\"std\" ".
             "media=\"screen\"   href=\"".$this->path."screen.css\"   type=\"text/css\">\n";
@@ -84,7 +84,7 @@ class Page
         print "\n<br>\n\n";
 
         print "<div id=\"nav_level1\">\n".
-            "<a href=\"".$this->path.$this->pagename."?LANG=de\"><img src=\"".$this->path."flags/Germany-Flag-32.png\"></a>\n".
+            //"<a href=\"".$this->path.$this->pagename."?LANG=de\"><img src=\"".$this->path."flags/Germany-Flag-32.png\"></a>\n".
             "<a href=\"".$this->path.$this->pagename."?LANG=sv\"><img src=\"".$this->path."flags/Sweden-Flag-32.png\"></a>\n".
             "<a href=\"".$this->path.$this->pagename."?LANG=en\"><img src=\"".$this->path."flags/United-Kingdom-flag-32.png\"></a>\n".
             "</div>\n";
@@ -162,6 +162,28 @@ class Page
         }
     }
 
+    function readCode($file, $short_name)
+    {
+        //Allow only files in the same dir!
+        $file = basename($file);
+
+        if($short_name == "")
+        {
+            $short_name = $file;
+        }
+
+        $str = "<div id=\"codebox\">\n".
+            "<p>Filename: <a href=\"".$file."\" target=\"_blank\">".$short_name."</a></p>\n".
+            "<pre>\n";
+        //include($file); 
+        $lines = file($file); foreach ($lines as $line_num => $line)
+        {
+            $str .= htmlspecialchars($line) . "";
+        }
+        $str .= "</pre></div>\n";
+
+        return $str;
+    }
 
     function buildNavLink($text, $level)
     {
@@ -1140,6 +1162,7 @@ class Page
     protected $InlineTypes = array(
         '"' => array('SpecialCharacter'),
         '!' => array('Image'),
+        '^' => array('CodeFile'),
         '&' => array('SpecialCharacter'),
         '*' => array('Emphasis'),
         ':' => array('Url'),
@@ -1154,7 +1177,7 @@ class Page
 
     # ~
 
-    protected $inlineMarkerList = '!"*_&[:<>`~\\';
+    protected $inlineMarkerList = '!^"*_&[:<>`~\\';
 
     #
     # ~
@@ -1309,6 +1332,40 @@ class Page
                 'extent' => 2,
             );
         }
+    }
+
+    protected function inlineCodeFile($Excerpt)
+    {
+        //print  __CLASS__." ".__FUNCTION__." ".__LINE__."\n";
+        //print_r($Excerpt);
+
+        if ( ! isset($Excerpt['text'][1]) or $Excerpt['text'][1] !== '[')
+        {
+            return;
+        }
+
+        $Excerpt['text']= substr($Excerpt['text'], 1);
+
+        $Link = $this->inlineLink($Excerpt);
+
+        if ($Link === null)
+        {
+            return;
+        }
+
+        //print 
+        //    "File:\"".$Link['element']['attributes']['href']."\" ".
+        //    "Name:\"".$Link['element']['text']."\"\n";
+
+        
+        $Inline = array(
+            'extent' => $Link['extent'] + 1,
+            'markup' => $this->readCode ( $Link['element']['attributes']['href'], $Link['element']['text']),
+        );
+
+        unset($Inline['element']['attributes']['href']);
+
+        return $Inline;
     }
 
     protected function inlineImage($Excerpt)
@@ -1672,7 +1729,7 @@ class Page
     # Read-Only
 
     protected $specialCharacters = array(
-        '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '>', '#', '+', '-', '.', '!', '|',
+        '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '>', '#', '+', '-', '.', '!', '|', '^', 
     );
 
     protected $StrongRegex = array(
