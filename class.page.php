@@ -175,7 +175,7 @@ class Page
         $str = "<div id=\"codebox\">\n".
             "<p>Filename: <a href=\"".$file."\" target=\"_blank\">".$short_name."</a></p>\n".
             "<pre>\n";
-        //include($file); 
+
         $lines = file($file); foreach ($lines as $line_num => $line)
         {
             $str .= htmlspecialchars($line) . "";
@@ -1359,11 +1359,10 @@ class Page
             return;
         }
 
-        //print 
+        //print
         //    "File:\"".$Link['element']['attributes']['href']."\" ".
         //    "Name:\"".$Link['element']['text']."\"\n";
 
-        
         $Inline = array(
             'extent' => $Link['extent'] + 1,
             'markup' => $this->readCode ( $Link['element']['attributes']['href'], $Link['element']['text']),
@@ -1735,7 +1734,7 @@ class Page
     # Read-Only
 
     protected $specialCharacters = array(
-        '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '>', '#', '+', '-', '.', '!', '|', '^', 
+        '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '>', '#', '+', '-', '.', '!', '|', '^',
     );
 
     protected $StrongRegex = array(
