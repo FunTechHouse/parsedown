@@ -65,6 +65,9 @@ class Page
         print "\n</div><!-- END: body_data -->\n\n";
 
         print "<div id=\"nav_links\">\n";
+
+        print "<div id=\"nav_logo\"><img src=\"".$this->path."markdown-mark/png/208x128.png\"><br><br></div>\n";
+
         print "<div id=\"nav_colour\">\n";
 
         print "<br>\n".

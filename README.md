@@ -2,6 +2,17 @@
 
 This is a multi lang small web solution based on the Parsedown markdown parser.
 
+
+### A example logo
+```
+git submodule add git@github.com:dcurtis/markdown-mark.git markdown-mark
+
+git submodule status
+git submodule init
+git submodule update
+```
+
+
 ## Parsedown
 
 [![Build Status](https://img.shields.io/travis/erusev/parsedown/master.svg?style=flat-square)](https://travis-ci.org/erusev/parsedown)
