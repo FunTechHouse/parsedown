@@ -187,6 +187,9 @@ class Page
 
     function buildNavLink($text, $level)
     {
+        // Remove all markdown esc chars...
+        $text = str_replace('\\', '', $text);
+
         if($level<=4)
         {
             $this->navigationPage .=
@@ -200,6 +203,9 @@ class Page
     # Remove all non ascii 7 chars and replace them with _
     function urlsanitize($str)
     {
+        // Remove all markdown esc chars...
+        $str = str_replace('\\', '', $str);
+
         $str = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
         $str = preg_replace('/[^a-zA-Z0-9]/', '_', $str);
         return $str;
