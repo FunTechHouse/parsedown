@@ -94,7 +94,7 @@ class Page
         print "</div><!-- END: nav_colour -->\n";
         print "</div><!-- END: nav_links -->\n\n";
 
-        print "<div class=\"print_info\">&copy; fun-tech.se - Simonsson Fun Technologies</div>\n";
+        print "<div class=\"print_info\">&copy; fun-tech.se - Simonsson Fun-Tech & Trädgård AB</div>\n";
         print "</body>\n</html>\n";
     }
 
