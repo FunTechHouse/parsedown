@@ -42,20 +42,17 @@ class Page
             "<html>\n<head>\n".
             "\t<title>$projectName - ".$this->navigation[$this->pagename][1]."</title>\n";
 
-        print "\t<link rel=\"stylesheet\" title=\"std\" ".
-            "media=\"screen\"   href=\"".$this->path."screen.css\"   type=\"text/css\">\n";
+        print "\t<link rel=\"stylesheet\" type=\"text/css\" href=\"".$this->path."screen.css\"   media=\"screen\">\n";
 
-        print "\t<link rel=\"stylesheet\" title=\"std\" ".
-            "media=\"print\"    href=\"".$this->path."print.css\"    type=\"text/css\">\n";
+        print "\t<link rel=\"stylesheet\" type=\"text/css\" href=\"".$this->path."print.css\"    media=\"print\">\n";
 
-        print "\t<link rel=\"stylesheet\" title=\"std\" ".
-            "media=\"handheld\" href=\"".$this->path."handheld.css\" type=\"text/css\">\n";
+        print "\t<link rel=\"stylesheet\" type=\"text/css\" href=\"".$this->path."handheld.css\" media=\"handheld\">\n";
 
 
         print "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n";
 
         print "</head>\n<body>\n".
-            "<div id=\"body_data\">\n".
+            "<div class=\"body_data\">\n".
             "<h1>".$projectDesc." - ".$this->navigation[$this->pagename][1]."</h1>\n\n";
     }
 
@@ -64,21 +61,21 @@ class Page
     {
         print "\n</div><!-- END: body_data -->\n\n";
 
-        print "<div id=\"nav_links\">\n";
+        print "<div class=\"nav_links\">\n";
 
-        print "<div id=\"nav_logo\"><img src=\"".$this->path."markdown-mark/png/208x128.png\"><br><br></div>\n";
+        print "<div class=\"nav_logo\"><img src=\"".$this->path."markdown-mark/png/208x128.png\"><br><br></div>\n";
 
-        print "<div id=\"nav_colour\">\n";
+        print "<div class=\"nav_colour\">\n";
 
         print "<br>\n".
-            "<div id=\"nav_level1\">".
+            "<div class=\"nav_level1\">".
             "<a href=\"http://fun-tech.se\" target=\"_blank\">&copy; fun-tech.se</a>".
             "</div>".
             "<br>\n";
 
         foreach ($this->navigation as $navUrl => $navName)
         {
-            print "<div id=\"nav_level1\"><a href=\"".$this->path.$navUrl."\">$navName[0]</a></div>\n";
+            print "<div class=\"nav_level1\"><a href=\"".$this->path.$navUrl."\">$navName[0]</a></div>\n";
             if($this->pagename == $navUrl)
             {
                 print $this->navigationPage;
@@ -86,7 +83,7 @@ class Page
         }
         print "\n<br>\n\n";
 
-        print "<div id=\"nav_level1\">\n".
+        print "<div class=\"nav_level1\">\n".
             //"<a href=\"".$this->path.$this->pagename."?LANG=de\"><img src=\"".$this->path."flags/Germany-Flag-32.png\"></a>\n".
             "<a href=\"".$this->path.$this->pagename."?LANG=sv\"><img src=\"".$this->path."flags/Sweden-Flag-32.png\"></a>\n".
             "<a href=\"".$this->path.$this->pagename."?LANG=en\"><img src=\"".$this->path."flags/United-Kingdom-flag-32.png\"></a>\n".
@@ -97,7 +94,7 @@ class Page
         print "</div><!-- END: nav_colour -->\n";
         print "</div><!-- END: nav_links -->\n\n";
 
-        print "<div id=\"print_info\">&copy; fun-tech.se - Simonsson Fun Technologies</div>\n";
+        print "<div class=\"print_info\">&copy; fun-tech.se - Simonsson Fun Technologies</div>\n";
         print "</body>\n</html>\n";
     }
 
@@ -175,7 +172,7 @@ class Page
             $short_name = $file;
         }
 
-        $str = "<div id=\"codebox\">\n".
+        $str = "<div class=\"codebox\">\n".
             "<p>Filename: <a href=\"".$file."\" target=\"_blank\">".$short_name."</a></p>\n".
             "<pre>\n";
 
@@ -196,7 +193,7 @@ class Page
         if($level<=4)
         {
             $this->navigationPage .=
-                "<div id=\"nav_level".$level."\">".
+                "<div class=\"nav_level".$level."\">".
                 "<a href=\"".$this->path.$this->pagename."#".$this->urlsanitize($text)."\">".
                 $text.
                 "</a></div>\n";
